@@ -1,5 +1,5 @@
 ﻿param(
-[Parameter(Mandatory=$false)][string]$Path='D:\ISSUES\SQL14-MALWARE\Exfiltration',
+[Parameter(Mandatory=$false)][string]$Path,
 [Parameter(Mandatory=$false)][bool]$RootFiles=$false,
 [Parameter(Mandatory=$false)][bool]$Recurse=$false
 )
@@ -140,7 +140,7 @@ start $PSScriptRoot
 
 
 
-    $excelCom.Quit()
-    $outlook.Quit()
-    $wordCom.Quit()
+$excelCom.Quit()
+$outlook.Quit()
+$wordCom.Quit()
 
