@@ -131,7 +131,7 @@ if($foundList.Count -gt 0)
 {
     "RUH-RO RAGGY!"
     "Hold on to your butts..."
-    ConvertTo-Json $foundList -Depth 6 | Out-File ($PSScriptRoot + '\' + $fileDate + '_Results.json')   
+    ConvertTo-Json $foundList -Depth 6 | Out-File ($PSScriptRoot + '\Results\' + $fileDate + '_Results.json')   
 } else {
     "#!#!#!#!#!#! ALL CLEAR !#!#!#!#!#!#"
 }
