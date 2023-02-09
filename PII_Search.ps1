@@ -8,8 +8,11 @@ $files = $null
 
 $db = cat "$PSScriptRoot\config.json" | ConvertFrom-Json
 
+"Creating Worker: WORD"
 $wordCom = New-Object -ComObject Word.Application
+"Creating Worker: EXCEL"
 $excelCom = New-Object -ComObject Excel.Application
+"Creating Worker: OUTLOOK"
 $outlook = New-Object -comobject outlook.application
 
 
@@ -103,23 +106,26 @@ $root | % {
         "Reading File: " + $item.FullName        
         $str = $null
 
-        if($item.Attributes -ne 'Directory'){
+        # We don't want to try to open a directory.
+        if($item.Attributes -ne 'Directory'){   
         
-        }
-        Switch -Wildcard ($item.FullName){
-            "*.pdf" { $str = (convert-PDFtoText -file $_ -itext "$PSScriptRoot\itextsharp.dll") }
-            "*.doc"{ $str = (convert-WORDtoText -file $item.FullName) }
-            "*.docx"{ $str = (convert-WORDtoText -file $item.FullName) }
-            "*.xlsx"{ $str = (convert-ExceltoText -file $item.FullName -height $hi -width $wi) }
-            "*.xls"{ $str = (convert-ExceltoText -file $item.FullName -height $hi -width $wi) }
-            "*.msg"{ $str = (convert-WORDtoText -file $item.FullName) }
-            Default { $str = cat $item.FullName }
-        }
+            # Switch for known filetype handlers    
+            Switch -Wildcard ($item.FullName){
+                "*.pdf" { $str = (convert-PDFtoText -file $_ -itext "$PSScriptRoot\itextsharp.dll") }
+                "*.doc"{ $str = (convert-WORDtoText -file $item.FullName) }
+                "*.docx"{ $str = (convert-WORDtoText -file $item.FullName) }
+                "*.xlsx"{ $str = (convert-ExceltoText -file $item.FullName -height $hi -width $wi) }
+                "*.xls"{ $str = (convert-ExceltoText -file $item.FullName -height $hi -width $wi) }
+                "*.msg"{ $str = (convert-WORDtoText -file $item.FullName) }
+                Default { $str = cat $item.FullName }
+            }
 
-        $search = testString -str $str
-        if($search.Count -gt 0){
-            $foundList.Add(@{file=$item.Name;path=$item.FullName;results=(testString -str $str)})
-            "An item was found."
+            $search = testString -str $str
+            if($search.Count -gt 0){
+                # If the tester found matches, add them to the found list.
+                $foundList.Add(@{file=$item.Name;path=$item.FullName;results=(testString -str $str)})
+                $search | %{ "Found " + $_.type }
+            }
         }
         
     }

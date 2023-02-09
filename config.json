@@ -13,7 +13,11 @@
     },
     {
         "regex": "\\b[\\dlZEASBO]{3} [\\dlZEASBO]{2} [\\dlZEASBO]{4}|([\\dlZEASBO] ?){3}[\\\u2014\\-_] ?([\\dlZEASBO] ?){2}[\\\u2014\\-_] ?([\\dlZEASBO] ?){4}\\b",
-        "type": "US SSN OCR"
+        "type": "Fuzzy SSN OCR"
+    },
+    {
+        "regex": "/^(?!000|666|9)\\d{3}(-?)(?!00)\\d{2}\\1(?!0000)\\d{4}$/",
+        "type": "SSN (Strict)"
     },
     {
         "regex": "\\b((\\+|\\b)[1l][\\-\\. ])?\\(?\\b[\\dOlZSB]{3,5}([\\-\\. ]|\\) ?)[\\dOlZSB]{3}[\\-\\. ][\\dOlZSB]{4}\\b",
@@ -28,7 +32,19 @@
         "type": "US Street Address"
     },
     {
-        "regex": "\\b[pP]assword\\b|\\b[pP]ass\\b|\\b[Uu]sername\\b",
+        "regex": "(?:[pP]as+word|[pP]ass|[Uu]sername)[:=].+[ ;,]",
         "type": "Username or Password"
+    },
+    {
+        "regex": "/^(?:[0-9A-Fa-f]{2}(?:([:-])|)[0-9A-Fa-f]{2})(?:(?(1)\\1|\\.)(?:[0-9A-Fa-f]{2}([:-]?)[0-9A-Fa-f]{2})){2}$/",
+        "type": "MAC Address"
+    },
+    {
+        "regex": "/^({)?(?<uuid>[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})((?(1)}))$/",
+        "type": "UUID"
+    },
+    {
+        "regex": "/^(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}$/",
+        "type": "IPv4 (RFC 3986)"
     }
 ]
